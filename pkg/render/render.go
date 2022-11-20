@@ -3,12 +3,13 @@ package render
 import (
 	"bytes"
 	"fmt"
-	"hello-world-server/pkg/config"
-	"hello-world-server/pkg/models"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/Shazil2154/-go--bookings-project/pkg/config"
+	"github.com/Shazil2154/-go--bookings-project/pkg/models"
 )
 
 var functions = template.FuncMap{}

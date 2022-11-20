@@ -1,10 +1,11 @@
 package handlers
 
 import (
-	"hello-world-server/pkg/config"
-	"hello-world-server/pkg/models"
-	"hello-world-server/pkg/render"
 	"net/http"
+
+	"github.com/Shazil2154/-go--bookings-project/pkg/config"
+	"github.com/Shazil2154/-go--bookings-project/pkg/models"
+	"github.com/Shazil2154/-go--bookings-project/pkg/render"
 )
 
 // Repo the repository used by the handlers
