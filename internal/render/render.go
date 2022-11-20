@@ -3,13 +3,13 @@ package render
 import (
 	"bytes"
 	"fmt"
+	"github.com/Shazil2154/-go--bookings-project/internal/config"
+	"github.com/Shazil2154/-go--bookings-project/internal/models"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
 
-	"github.com/Shazil2154/-go--bookings-project/pkg/config"
-	"github.com/Shazil2154/-go--bookings-project/pkg/models"
 	"github.com/justinas/nosurf"
 )
 

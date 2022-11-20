@@ -1,10 +1,9 @@
 package main
 
 import (
+	"github.com/Shazil2154/-go--bookings-project/internal/config"
+	"github.com/Shazil2154/-go--bookings-project/internal/handlers"
 	"net/http"
-
-	"github.com/Shazil2154/-go--bookings-project/pkg/config"
-	"github.com/Shazil2154/-go--bookings-project/pkg/handlers"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"

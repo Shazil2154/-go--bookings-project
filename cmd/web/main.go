@@ -1,13 +1,12 @@
 package main
 
 import (
+	"github.com/Shazil2154/-go--bookings-project/internal/config"
+	"github.com/Shazil2154/-go--bookings-project/internal/handlers"
+	"github.com/Shazil2154/-go--bookings-project/internal/render"
 	"log"
 	"net/http"
 	"time"
-
-	"github.com/Shazil2154/-go--bookings-project/pkg/config"
-	"github.com/Shazil2154/-go--bookings-project/pkg/handlers"
-	"github.com/Shazil2154/-go--bookings-project/pkg/render"
 
 	"github.com/alexedwards/scs/v2"
 )
