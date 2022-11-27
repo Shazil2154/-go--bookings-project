@@ -6,11 +6,10 @@ import (
 	"github.com/Shazil2154/-go--bookings-project/internal/handlers"
 	"github.com/Shazil2154/-go--bookings-project/internal/models"
 	"github.com/Shazil2154/-go--bookings-project/internal/render"
+	"github.com/alexedwards/scs/v2"
 	"log"
 	"net/http"
 	"time"
-
-	"github.com/alexedwards/scs/v2"
 )
 
 const PORT = ":8080"
@@ -19,6 +18,25 @@ var app config.AppConfig
 var session *scs.SessionManager
 
 func main() {
+	err := run()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	srv := &http.Server{
+		Addr:    PORT,
+		Handler: routes(&app),
+	}
+
+	err = srv.ListenAndServe()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func run() error {
 	// What I am going to put in the session
 	gob.Register(models.Reservation{})
 
@@ -35,6 +53,7 @@ func main() {
 	tc, err := render.CreateTempleteCache()
 	if err != nil {
 		log.Fatal("Can not create template cache", err)
+		return err
 	}
 
 	app.TemplateCache = tc
@@ -46,14 +65,5 @@ func main() {
 
 	render.NewTemplates(&app)
 
-	srv := &http.Server{
-		Addr:    PORT,
-		Handler: routes(&app),
-	}
-
-	err = srv.ListenAndServe()
-
-	if err != nil {
-		log.Fatal(err)
-	}
+	return nil
 }
