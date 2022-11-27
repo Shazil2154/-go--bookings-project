@@ -16,6 +16,7 @@ import (
 var functions = template.FuncMap{}
 
 var app *config.AppConfig
+var pathToTemplates = "./templates"
 
 func addDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
 	td.Flash = app.Session.PopString(r.Context(), "flash")
@@ -37,13 +38,13 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, r *http.Request, td *mod
 	if app.UseCache {
 		tc = app.TemplateCache
 	} else {
-		tc, _ = CreateTempleteCache()
+		tc, _ = CreateTemplateCache()
 	}
 
 	t, ok := tc[tmpl]
 
 	if !ok {
-		log.Fatal("Tempalte Not Found in the cache try to refresh the cache and try again.")
+		log.Fatal("Template Not Found in the cache try to refresh the cache and try again.")
 	}
 
 	buf := new(bytes.Buffer)
@@ -58,11 +59,11 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, r *http.Request, td *mod
 
 }
 
-// CreateTempleteCache create a template map as a cache
-func CreateTempleteCache() (map[string]*template.Template, error) {
+// CreateTemplateCache create a template map as a cache
+func CreateTemplateCache() (map[string]*template.Template, error) {
 	myCache := map[string]*template.Template{}
 
-	pages, err := filepath.Glob("./templates/*.page.*")
+	pages, err := filepath.Glob(fmt.Sprintf("%s/*.page.*", pathToTemplates))
 
 	if err != nil {
 		return nil, err
@@ -75,13 +76,13 @@ func CreateTempleteCache() (map[string]*template.Template, error) {
 			return nil, err
 		}
 
-		matches, err := filepath.Glob("./templates/*.layout.*")
+		matches, err := filepath.Glob(fmt.Sprintf("%s/*.layout.*", pathToTemplates))
 		if err != nil {
 			return nil, err
 		}
 
 		if len(matches) > 0 {
-			ts, err = ts.ParseGlob("./templates/*.layout.*")
+			ts, err = ts.ParseGlob(fmt.Sprintf("%s/*.layout.*", pathToTemplates))
 			if err != nil {
 				return nil, err
 			}

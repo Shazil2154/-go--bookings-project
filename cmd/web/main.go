@@ -50,7 +50,7 @@ func run() error {
 	session.Cookie.Secure = app.InProduction
 	app.Session = session
 
-	tc, err := render.CreateTempleteCache()
+	tc, err := render.CreateTemplateCache()
 	if err != nil {
 		log.Fatal("Can not create template cache", err)
 		return err
