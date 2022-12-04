@@ -4,6 +4,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"github.com/Shazil2154/-go--bookings-project/internal/config"
+	"github.com/Shazil2154/-go--bookings-project/internal/helpers"
 	"github.com/Shazil2154/-go--bookings-project/internal/models"
 	"github.com/Shazil2154/-go--bookings-project/internal/render"
 	"github.com/alexedwards/scs/v2"
@@ -13,12 +14,15 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"time"
 )
 
 var app config.AppConfig
 var session *scs.SessionManager
+var infoLog *log.Logger
+var errorLog *log.Logger
 var functions = template.FuncMap{}
 var pathToTemplates = "./../../templates"
 
@@ -28,6 +32,11 @@ func getRoutes() http.Handler {
 
 	// Change this to true when in production
 	app.InProduction = false
+	infoLog = log.New(os.Stdout, "[INFO]\t", log.Ldate|log.Ltime)
+	app.InfoLog = infoLog
+
+	errorLog = log.New(os.Stdout, "[ERROR]\t", log.Ldate|log.Ltime|log.Lshortfile)
+	app.ErrorLog = errorLog
 
 	session = scs.New()
 	session.Lifetime = 24 * time.Hour
@@ -48,6 +57,7 @@ func getRoutes() http.Handler {
 	repo := NewRepo(&app)
 	NewHandlers(repo)
 	render.NewTemplates(&app)
+	helpers.NewHelpers(&app)
 
 	mux := chi.NewRouter()
 

@@ -2,6 +2,7 @@ package render
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"github.com/Shazil2154/-go--bookings-project/internal/config"
 	"github.com/Shazil2154/-go--bookings-project/internal/models"
@@ -18,7 +19,7 @@ var functions = template.FuncMap{}
 var app *config.AppConfig
 var pathToTemplates = "./templates"
 
-func addDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
+func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateData {
 	td.Flash = app.Session.PopString(r.Context(), "flash")
 	td.Warning = app.Session.PopString(r.Context(), "warning")
 	td.Error = app.Session.PopString(r.Context(), "error")
@@ -32,7 +33,7 @@ func NewTemplates(a *config.AppConfig) {
 }
 
 // RenderTemplate renders templates using html/template.
-func RenderTemplate(w http.ResponseWriter, tmpl string, r *http.Request, td *models.TemplateData) {
+func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) error {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
@@ -44,19 +45,21 @@ func RenderTemplate(w http.ResponseWriter, tmpl string, r *http.Request, td *mod
 	t, ok := tc[tmpl]
 
 	if !ok {
-		log.Fatal("Template Not Found in the cache try to refresh the cache and try again.")
+		log.Println("Template Not Found in the cache try to refresh the cache and try again.")
+		return errors.New("can't find template from cache")
 	}
 
 	buf := new(bytes.Buffer)
-	td = addDefaultData(td, r)
+	td = AddDefaultData(td, r)
 	_ = t.Execute(buf, td)
 
 	_, err := buf.WriteTo(w)
 
 	if err != nil {
 		fmt.Println("Error writing the template to the browser", err)
+		return err
 	}
-
+	return nil
 }
 
 // CreateTemplateCache create a template map as a cache
