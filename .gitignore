@@ -13,6 +13,7 @@
 
 # yml files
 database.yml
+*.yml
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
