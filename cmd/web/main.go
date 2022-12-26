@@ -2,16 +2,17 @@ package main
 
 import (
 	"encoding/gob"
+	"log"
+	"net/http"
+	"os"
+	"time"
+
 	"github.com/Shazil2154/-go--bookings-project/internal/config"
 	"github.com/Shazil2154/-go--bookings-project/internal/handlers"
 	"github.com/Shazil2154/-go--bookings-project/internal/helpers"
 	"github.com/Shazil2154/-go--bookings-project/internal/models"
 	"github.com/Shazil2154/-go--bookings-project/internal/render"
 	"github.com/alexedwards/scs/v2"
-	"log"
-	"net/http"
-	"os"
-	"time"
 )
 
 const PORT = ":8080"
@@ -40,6 +41,9 @@ func main() {
 	}
 }
 
+// TODO
+// I don't really like this pattern of initializing everything on the main function
+// Maybe create a pkg to do the initialization or just seperate out this run function in the main pkg
 func run() error {
 	// What I am going to put in the session
 	gob.Register(models.Reservation{})
