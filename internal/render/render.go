@@ -4,12 +4,13 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/Shazil2154/-go--bookings-project/internal/config"
-	"github.com/Shazil2154/-go--bookings-project/internal/models"
 	"html/template"
 	"log"
 	"net/http"
 	"path/filepath"
+
+	"github.com/Shazil2154/-go--bookings-project/internal/config"
+	"github.com/Shazil2154/-go--bookings-project/internal/models"
 
 	"github.com/justinas/nosurf"
 )
@@ -27,13 +28,13 @@ func AddDefaultData(td *models.TemplateData, r *http.Request) *models.TemplateDa
 	return td
 }
 
-// NewTemplates sets the config for the templates package.
-func NewTemplates(a *config.AppConfig) {
+// NewRenderer sets the config for the templates package.
+func NewRenderer(a *config.AppConfig) {
 	app = a
 }
 
-// RenderTemplate renders templates using html/template.
-func RenderTemplate(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) error {
+// Template renders templates using html/template.
+func Template(w http.ResponseWriter, r *http.Request, tmpl string, td *models.TemplateData) error {
 	var tc map[string]*template.Template
 
 	if app.UseCache {
